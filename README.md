@@ -7,13 +7,13 @@ It needs a token that is retrieve from Hugging Face website ( sign up is require
 Installation ( Linux ):
 =======================
 
-git clone https://github.com/cf2018/huggingface_flask_chatbot.git
-python -m venv venv
-pip3 install -r requirements.txt
-cd huggingface_flask_chatbot
-flask run
+###git clone https://github.com/cf2018/huggingface_flask_chatbot.git
+###python -m venv venv
+###pip3 install -r requirements.txt
+###cd huggingface_flask_chatbot
+###flask run
 
-Open browser at http://127.0.0.1:8000
+###Open browser at http://127.0.0.1:8000
 
 Note:
 =====
