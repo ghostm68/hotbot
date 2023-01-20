@@ -7,10 +7,6 @@ from huggingface_hub import HfFolder
 from huggingface_hub import InferenceApi
 import time
 
-#https://api-inference.huggingface.co/models/EleutherAI/gpt-j-6B
-#inference = InferenceApi("bigscience/bloom",token='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')
-#inference = InferenceApi("EleutherAI/gpt-j-6B",token='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')
-
 
 app = Flask(__name__)
 
