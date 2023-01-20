@@ -10,6 +10,7 @@ import time
 
 app = Flask(__name__)
 
+hf_token = 'hf_GET_THE_TOKEN_FROM_HUGGING_FACE_SIGN_UP'
 
 @app.route('/')
 def chat():
@@ -42,7 +43,7 @@ def infer_model(prompt,model='EleutherAI/gpt-j-6B',
     if model == None:
         return 'Please choose a model'
 
-    inference = InferenceApi(model,token='hf_GET_THE_TOKEN_FROM_HUGGING_FACE_SIGN_UP')
+    inference = InferenceApi(model,token=hf_token)
 
     top_k = None if top_k == 0 else top_k
     do_sample = False if num_beams > 0 else not greedy_decoding
