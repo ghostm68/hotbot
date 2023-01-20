@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ model }} Model Chat</title>
+    <style>
+      /* Some CSS to style the chat layout */
+      .chat {
+        display: flex;
+        flex-direction: column;
+        height: 80vh;
+        overflow-y: scroll;
+        padding: 10px;
+      }
+      .chat__message {
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        align-self: flex-start;
+        max-width: 80%;
+      }
+      .chat__message--received {
+        background-color: #e5e5e5;
+        align-self: flex-end;
+      }
+      .chat__message--sent {
+        background-color: #2196f3;
+        color: #fff;
+        align-self: flex-start;
+      }
+      .chat__form {
+        display: flex;
+        margin-top: 10px;
+        align-items: center;
+      }
+      .chat__form input {
+        padding: 10px;
+        border-radius: 10px;
+        border: none;
+        flex-grow: 1;
+        margin-right: 10px;
+      }
+      .chat__form button {
+        background-color: #2196f3;
+        color: #fff;
+        padding: 10px;
+        border-radius: 10px;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="chat">
+      <div class="chat__message chat__message--received">
+        Hi, please ask anything. Current model is: <b> {{ model }} </b>. Available models:
+        <p></p><a href="?model=EleutherAI/gpt-j-6B">EleutherAI/gpt-j-6B</a>
+        <p></p><a href="?model=EleutherAI/gpt-neo-2.7B">EleutherAI/gpt-neo-2.7B</a>
+        <p></p><a href="?model=bigscience/bloom">bigscience/bloom</a>
+        <p></p><a href="?model=SIC98/GPT2-python-code-generator">SIC98/GPT2-python-code-generator</a>
+        <p></p><a href="?model=google/flan-t5-base">google/flan-t5-base</a>
+        <p></p><a href="?model=openai-gpt">openai-gpt</a>
+
+      </div>
+    </div>
+    <form class="chat__form">
+      <input type="text" id="message" placeholder="Type your message here..." />
+       <input type="hidden" id="model" value="{{ model }}"/>
+      <button type="button" onclick="retrieveAnswer()">Send</button>
+    </form>
+  </body>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    function retrieveAnswer() {
+      var message = document.getElementById("message").value;
+      var model = document.getElementById("model").value;
+      var endpoint = "/inference?input=" +  message + "&model=" + model ;
+
+          var message = document.createElement("div");
+          message.classList.add("chat__message", "chat__message--sent");
+          var model = document.getElementById("model").value;
+          message.innerHTML = 'Waiting for response..<b>' + model + '</b> model.'  ;
+          var chat = document.querySelector(".chat");
+          chat.appendChild(message);
+
+
+      axios.get(endpoint)
+        .then(function (response) {
+          console.log(response);
+          var message = document.createElement("div");
+          message.classList.add("chat__message", "chat__message--sent");
+          message.innerHTML = 'Response:' + String(response.data);
+          var chat = document.querySelector(".chat");
+          chat.appendChild(message);
+          // Clear the input field
+          document.getElementById("message").value = "";
+
+          var message = document.createElement("div");
+          message.classList.add("chat__message", "chat__message--received");
+          message.innerHTML = 'Is there anything else I can help you with?'  ;
+          var chat = document.querySelector(".chat");
+          chat.appendChild(message);
+
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+    }
+  </script>
+</html>
